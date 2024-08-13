@@ -11,6 +11,7 @@ import { fileURLToPath } from "url"
 import { promiseHooks } from "v8"
 import {register} from "./controllers/auth.js"
 import authRoutes from "./routes/auth.js"
+import userRoutes from "./routes/users.js"
 
 // CONFIGURATIONS
 const __filename = fileURLToPath(import.meta.url)   // __filename= 'E:\web dev\Social Media\server\index.js' 
@@ -49,6 +50,7 @@ app.post("/auth/register", upload.single("picture"), register)
 
 // Routes
 app.use("/auth", authRoutes)
+app.use("/users", userRoutes)
 
 // MONGOOSE SETUP
 const PORT= process.env.PORT || 6001
