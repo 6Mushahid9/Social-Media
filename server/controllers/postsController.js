@@ -22,7 +22,7 @@ export const createPost = async(req,res)=>{
 
         await newPost.save()
 
-        // after saveing a post we need to return all posts of DB to frontend
+        // after saving a post we need to return all posts of DB to frontend
         const posts = await Post.find()
         res.status(200).json(posts)
     } catch (error) {
