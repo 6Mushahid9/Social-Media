@@ -26,3 +26,8 @@ after stablishing connection with DB
 - we have to create a route for user's register
 - call fuction, but write code in controllers folder, 
 - here call User model to work with
+
+## Each facility has 3 things:
+- model
+- route
+- controller

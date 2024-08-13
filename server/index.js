@@ -9,9 +9,12 @@ import morgan from "morgan"
 import path from "path"
 import { fileURLToPath } from "url"
 import { promiseHooks } from "v8"
-import {register} from "./controllers/auth.js"
-import authRoutes from "./routes/auth.js"
-import userRoutes from "./routes/users.js"
+import {register} from "./controllers/authController.js"
+import { verifyToken } from "./middleware/authMiddleware.js"
+import { createPost } from "./controllers/postsController.js"
+import authRoutes from "./routes/authRoute.js"
+import userRoutes from "./routes/usersRoute.js"
+import postRoutes from "./routes/postsRoute.js"
 
 // CONFIGURATIONS
 const __filename = fileURLToPath(import.meta.url)   // __filename= 'E:\web dev\Social Media\server\index.js' 
@@ -46,11 +49,13 @@ const upload= multer({storage})
 
 // Routes with files
 app.post("/auth/register", upload.single("picture"), register)
-// since this above line is using upload we cnnot move it to other file location
+app.post("/posts", verifyToken, upload.single("picture"), createPost)
+// since these above line is using upload we cnnot move it to other file location
 
 // Routes
 app.use("/auth", authRoutes)
 app.use("/users", userRoutes)
+app.use("/posts", postRoutes)
 
 // MONGOOSE SETUP
 const PORT= process.env.PORT || 6001
