@@ -1,7 +1,7 @@
 const LoginPage=()=>{
     return(
         <div>
-            loginpage
+            loginpage wrote
         </div>
     )
 }
