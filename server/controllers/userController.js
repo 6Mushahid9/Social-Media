@@ -2,37 +2,82 @@ import  pkg  from "mongoose";
 import User from "../models/userModel.js";
 
 const {Promise} = pkg
-export const getUser = async(req,res)=>{
-    try {
-        const id = req.params
-        const user = await User.findById(id)
-        if(!user)  
-            res.status(404).json("User not found")
-        res.status(200).json(user)
-    } catch (error) {
-        res.status(500).json({msg: error.message})
-    }
-}
 
-export const getUserFriends = async(req,res)=>{
+// export const getUser = async(req,res)=>{
+//     try {
+//         const id = req.params
+//         const user = await User.findById(id)
+//         if(!user)  
+//             res.status(404).json("User not found")
+//         res.status(200).json(user)
+//     } catch (error) {
+//         res.status(500).json({msg: error.message})
+//     }
+// }
+
+export const getUser = async (req, res) => {
     try {
-        const id = req.params
-        const user = await User.findById(id)
+      const { id } = req.params; // Extract the 'id' field from req.params
+  
+      // Validate the id to ensure it is a valid MongoDB ObjectId
+      if (!Types.ObjectId.isValid(id)) {
+        return res.status(400).json({ msg: "Invalid user ID format" });
+      }  
+      const user = await User.findById(id);
+      if (!user) {
+        return res.status(404).json({ msg: "User not found" });
+      }
+      res.status(200).json(user);
+    } catch (error) {
+      res.status(500).json({ msg: error.message });
+    }
+  };
+  
+
+// export const getUserFriends = async(req,res)=>{
+//     try {
+//         const id = req.params
+//         const user = await User.findById(id)
         
-        const friends = await Promise.all(
-            user.friends.map((id)=> User.findById(id))
-        )
-        const formattedList = friends.map(
-            ({_id, firstName, lastName, occupation, location, picturePath})=>{
-                return {_id, firstName, lastName, occupation, location, picturePath}
-            }
-        )
-        res.status(200).json({formattedList})
-    } catch (error) {
-        res.status(400).json({msg: error.message})
-    }
-}
+//         const friends = await Promise.all(
+//             user.friends.map((id)=> User.findById(id))
+//         )
+//         const formattedList = friends.map(
+//             ({_id, firstName, lastName, occupation, location, picturePath})=>{
+//                 return {_id, firstName, lastName, occupation, location, picturePath}
+//             }
+//         )
+//         res.status(200).json({formattedList})
+//     } catch (error) {
+//         res.status(400).json({msg: error.message})
+//     }
+// }
 
+export const getUserFriends = async (req, res) => {
+    try {
+      const { id } = req.params; // Extract `id` from `req.params`     
+      const user = await User.findById(id);
+      if (!user) {
+        return res.status(404).json({ msg: "User not found" });
+      }
+  
+      const friends = await Promise.all(
+        user.friends.map((friendId) => User.findById(friendId))
+      );
+  
+      const formattedList = friends.map(
+        ({ _id, firstName, lastName, occupation, location, picturePath }) => {
+          return { _id, firstName, lastName, occupation, location, picturePath };
+        }
+      );
+  
+      res.status(200).json(formattedList); // Send the formatted list directly
+    } catch (error) {
+      res.status(400).json({ msg: error.message });
+    }
+  };
+
+  
 export const addRemoveFriends = async(req,res)=>{
     try {
         const {id , friendId} = req.params

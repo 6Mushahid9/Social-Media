@@ -2,7 +2,6 @@
 1. extract add data from req.body
 2. create a UserModel Object
 3. upload this new object
-
 */
 
 import bcrypt from "bcrypt"

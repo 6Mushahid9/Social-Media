@@ -14,6 +14,9 @@ import { createPost } from "./controllers/postsController.js"
 import authRoutes from "./routes/authRoute.js"
 import userRoutes from "./routes/usersRoute.js"
 import postRoutes from "./routes/postsRoute.js"
+import User from "./models/userModel.js"
+import Post from "./models/postModel.js"
+import { users, posts} from "./data/index.js"
 
 // CONFIGURATIONS
 const __filename = fileURLToPath(import.meta.url)   // __filename= 'E:\web dev\Social Media\server\index.js' 
@@ -61,6 +64,10 @@ const PORT= process.env.PORT || 6001
 mongoose.connect(process.env.MONGO_URL)
 .then(()=>{
     app.listen(PORT, ()=> console.log(`App runing on Port: ${PORT}`))
+
+    // injecting random data
+    // User.insertMany(users);
+    // Post.insertMany(posts);
 })
 .catch((error)=>{
     console.log(error, "Unable to connect to DB")

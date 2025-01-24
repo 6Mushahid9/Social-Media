@@ -21,7 +21,7 @@ import {
     Close
 } from "@mui/icons-material"
 import { useDispatch, useSelector } from "react-redux"
-import { setMode, setLogout } from "state/State.js"
+import { setMode, setLogout } from "state/index.js"
 import { useNavigate } from "react-router-dom"
 import FlexBetween from "scenes/components/FlexBetween.jsx"
 
@@ -42,9 +42,9 @@ const Navbar=()=>{
     const user = useSelector((state) => state.user);
     const fullName = user ? `${user.firstName} ${user.lastName}` : "Guest";
 
-    useEffect(() => {
-        console.log("User in Redux state: ", user);
-    }, [user]);
+    // useEffect(() => {
+    //     console.log("User in Redux state: ", user);
+    // }, [user]);
     
 
     return(
@@ -93,12 +93,10 @@ const Navbar=()=>{
                         <Select value={fullName}
                             sx={{
                                 backgroundColor: neutralLight,
-                                width: "300px",
                                 borderRadius: "0.25rem",
                                 p: "0.25rem 1rem",
                                 "&, MuiSvgIcon-root":{
                                     pr: "0.25rem",
-                                    width: "5.4rem"
                                 },
                                 "& .MuiSelect-select:focus":{
                                     backgroundColor: neutralLight
@@ -153,12 +151,10 @@ const Navbar=()=>{
                                 value={fullName}
                                 sx={{
                                     backgroundColor: neutralLight,
-                                    width: "150px",
                                     borderRadius: "0.25rem",
                                     p: "0.25rem 1rem",
                                     "& ,MuiSvgIcon-root":{
                                         pr: "0.25rem",
-                                        width: "5.4rem"
                                     },
                                     "& .MuiSelect-select:focus":{
                                         backgroundColor: neutralLight
